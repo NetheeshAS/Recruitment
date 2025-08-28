@@ -12,7 +12,8 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const port = 8080;
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
-const MONGO_URL = "mongodb://127.0.0.1:27017/mulearn";
+const MONGO_URL = process.env.MONGO_URI;
+
 
 // connect DB
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
