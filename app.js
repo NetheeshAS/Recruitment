@@ -10,47 +10,59 @@ const Recruitment = require("./models/recruitment");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const port = 8080;
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
-const MONGO_URL = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI;
 
+// -----------------------------
+// Validate Mongo URI
+// -----------------------------
+if (!MONGO_URI) {
+  console.error("❌ Error: MONGO_URI environment variable is not defined.");
+  console.error("Please set it in your .env file or container environment.");
+  process.exit(1);
+}
 
-// connect DB
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB error:", err));
+// -----------------------------
+// Connect to MongoDB
+// -----------------------------
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => {
+    console.error("❌ MongoDB connection error:", err);
+    process.exit(1);
+  });
 
-// view engine
+// -----------------------------
+// View engine
+// -----------------------------
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// static + middleware
+// -----------------------------
+// Middleware
+// -----------------------------
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
-/* -------------------------
-   Routes
-   ------------------------- */
+// -----------------------------
+// Routes
+// -----------------------------
 
 // Home
-app.get("/", (req, res) => {
-  res.render("home/home");
-});
+app.get("/", (req, res) => res.render("home/home"));
 
 // Show recruitment form
-app.get("/recruitment/apply", (req, res) => {
-  res.render("recruitment/recruitment");
-});
+app.get("/recruitment/apply", (req, res) => res.render("recruitment/recruitment"));
 
-// Handle submission (create applicant + generate app id)
+// Handle submission (create applicant + generate app ID)
 app.post("/recruitment", async (req, res) => {
   try {
     const { name, email, department, skills, interests, role, message } = req.body;
 
     // create compact application id: MLRN + random 6 hex + time slice
-    const rnd = crypto.randomBytes(3).toString("hex").toUpperCase(); // 6 hex chars
+    const rnd = crypto.randomBytes(3).toString("hex").toUpperCase();
     const timeSlice = Date.now().toString().slice(-5);
     const applicationId = `MLRN${rnd}${timeSlice}`;
 
@@ -66,11 +78,9 @@ app.post("/recruitment", async (req, res) => {
     });
 
     await applicant.save();
-    // render success with applicationId shown
     res.render("recruitment/success", { applicationId });
   } catch (err) {
     console.error("Submit error:", err);
-    // basic error page; you can replace with flash messages
     res.status(400).send("Error submitting application. Maybe email already used.");
   }
 });
@@ -93,9 +103,9 @@ app.post("/check-status", async (req, res) => {
   }
 });
 
-/* -------------------------
-   Admin routes (no auth)
-   ------------------------- */
+// -----------------------------
+// Admin routes (no auth for now)
+// -----------------------------
 
 // Admin applicants list
 app.get("/admin/applicants", async (req, res) => {
@@ -108,7 +118,7 @@ app.get("/admin/applicants", async (req, res) => {
   }
 });
 
-// Update status (Accept / Reject)
+// Update status (Accept / Reject / Pending)
 app.post("/admin/update-status/:id", async (req, res) => {
   try {
     const { status } = req.body;
@@ -123,7 +133,7 @@ app.post("/admin/update-status/:id", async (req, res) => {
   }
 });
 
-/* Optional: public applicants list (read-only) */
+// Public applicants list (read-only)
 app.get("/recruitment/applicants", async (req, res) => {
   try {
     const applicants = await Recruitment.find().sort({ appliedAt: -1 });
@@ -134,6 +144,9 @@ app.get("/recruitment/applicants", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+// -----------------------------
+// Start server
+// -----------------------------
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
