@@ -1,0 +1,36 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="col-md-6 mx-auto mt-4">
+  <h3 class="text-center mb-3">Check Application Status</h3>
+
+  <form action="/check-status" method="POST" class="p-3 bg-white rounded shadow-sm">
+    <div class="mb-3">
+      <label class="form-label">Application ID</label>
+      <input name="applicationId" class="form-control" placeholder="e.g. MLRN..." required>
+    </div>
+    <button class="btn btn-primary w-100">Check Status</button>
+  </form>
+
+  <% if (error) { %>
+    <div class="alert alert-danger mt-3"><%= error %></div>
+  <% } %>
+
+  <% if (applicant) { %>
+    <div class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= applicant.name %> — <small class="text-muted"><%= applicant.applicationId %></small></h5>
+        <p><strong>Status:</strong>
+          <% if (status === "Pending") { %>
+            <span class="badge bg-warning text-dark">Pending</span>
+          <% } else if (status === "Accepted") { %>
+            <span class="badge bg-success">Accepted</span>
+          <% } else { %>
+            <span class="badge bg-danger">Rejected</span>
+          <% } %>
+        </p>
+        <p><strong>Role:</strong> <%= applicant.role || "—" %></p>
+        <p><strong>Message:</strong> <%= applicant.message || "—" %></p>
+      </div>
+    </div>
+  <% } %>
+</div>

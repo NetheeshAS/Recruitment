@@ -1,0 +1,61 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Admin — Applicants</h2>
+
+  <table class="table table-hover table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>App ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Dept</th>
+        <th>Skills</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th style="width:180px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (applicants.length === 0) { %>
+        <tr><td colspan="8" class="text-center">No applicants</td></tr>
+      <% } %>
+
+      <% applicants.forEach(a => { %>
+        <tr>
+          <td><%= a.applicationId %></td>
+          <td><%= a.name %></td>
+          <td><%= a.email %></td>
+          <td><%= a.department || "—" %></td>
+          <td><%= (a.skills || []).join(", ") %></td>
+          <td><%= a.role || "—" %></td>
+          <td>
+            <% if (a.status === "Pending") { %>
+              <span class="badge bg-warning text-dark">Pending</span>
+            <% } else if (a.status === "Accepted") { %>
+              <span class="badge bg-success">Accepted</span>
+            <% } else { %>
+              <span class="badge bg-danger">Rejected</span>
+            <% } %>
+          </td>
+          <td>
+            <form action="/admin/update-status/<%= a._id %>?_method=POST" method="POST" style="display:inline-block;">
+              <input type="hidden" name="status" value="Accepted">
+              <button class="btn btn-sm btn-success">Accept</button>
+            </form>
+
+            <form action="/admin/update-status/<%= a._id %>?_method=POST" method="POST" style="display:inline-block; margin-left:6px;">
+              <input type="hidden" name="status" value="Rejected">
+              <button class="btn btn-sm btn-danger">Reject</button>
+            </form>
+
+            <form action="/admin/update-status/<%= a._id %>?_method=POST" method="POST" style="display:inline-block; margin-left:6px;">
+              <input type="hidden" name="status" value="Pending">
+              <button class="btn btn-sm btn-secondary">Reset</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

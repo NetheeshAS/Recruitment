@@ -1,0 +1,35 @@
+# Node modules (very heavy, no need to push)
+node_modules/
+
+# Environment variables (contains secrets)
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Railway or other deployment cache
+.cache
+dist
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Debugging dumps
+*.pid
+*.seed
+*.pid.lock

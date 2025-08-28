@@ -1,0 +1,180 @@
+/* General Body Styling */
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #000;
+}
+.navbar .nav-link,
+.navbar-brand {
+    color: white !important;
+}
+.navbar .nav-link:hover {
+    color: #f8d210 !important;
+}
+
+/* Cards */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Form Styling */
+.form-container {
+    max-width: 600px;
+    margin: auto;
+}
+.form-container form {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Footer */
+footer {
+    background-color: #000;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* -------- Global Reset -------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #ffffff; /* White background */
+    color: #111; /* Default text color */
+    line-height: 1.6;
+}
+
+/* -------- Navbar Styling -------- */
+nav {
+    background-color: #000; /* Black navbar */
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo / Title */
+nav h1 {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Navbar Links */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+nav ul li a:hover {
+    color: #000;
+    background-color: #fff;
+    transform: scale(1.05);
+}
+
+/* -------- Footer Styling -------- */
+footer {
+    background-color: #000; /* Black footer */
+    color: #fff;
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: 40px;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer Links */
+footer a {
+    color: #fff;
+    margin: 0 12px;
+    font-size: 15px;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+footer a:hover {
+    color: #00d4ff; /* Light blue hover */
+    transform: scale(1.1);
+}
+
+/* Footer Text */
+footer p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    opacity: 0.85;
+}
+
+/* -------- Responsive Design -------- */
+@media (max-width: 768px) {
+    nav .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    footer {
+        padding: 15px 5px;
+    }
+}
+
+/* basic styling */
+body { background:#f8f9fb; color:#111; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+
+/* forms */
+.form-container { max-width:720px; margin: 0 auto; }
+.form-container .form-control, .form-container .form-select, .form-container textarea { border-radius:8px; }
+
+/* tables and cards */
+.table { background: #fff; }
+.card, .table { border-radius: 8px; }
+
+/* buttons spacing */
+.btn { border-radius: 6px; }
+
+/* small responsive tweaks */
+@media (max-width:768px) {
+  .form-container { padding: 0 12px; }
+}
